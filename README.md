@@ -1,9 +1,7 @@
 # kubernetes-common-apps
-example deployment for common applications in Kubernetes 
+Example deployment for common applications in Kubernetes, Applications are managed and deployed by argocd. 
 
-applications are managed and deployed by argocd. 
-
-**application**:
+**Applications**:
 1. Nginx-Ingress-Controller.
 2. Let's Encrypt prod cert manager.
 3. MongoDB
