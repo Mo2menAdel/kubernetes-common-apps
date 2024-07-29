@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: moamenadaebes.online
+  - host: a.moamenadaebes.online
     http:
       paths:
       - backend:
