@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Mo2menAdel/kubernetes-common-apps.git'
-    path: applications-deployment/ingress-nginx-controller
+    path: applications-deployment/ingress-nginx-controller2
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
