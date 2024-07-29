@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Mo2menAdel/kubernetes-common-apps.git'
-    path: applications-deployment/minio
+    path: applications-deployment/minio2
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
