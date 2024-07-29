@@ -1,0 +1,70 @@
+# # mongodb-deploy.yaml
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: mongodb
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: mongo-pv
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   hostPath:
+#     path: "/mnt/data"
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mongo-pvc
+#   namespace: mongodb
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: mongodb
+#   namespace: mongodb
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: mongodb
+#   template:
+#     metadata:
+#       labels:
+#         app: mongodb
+#     spec:
+#       containers:
+#       - name: mongodb
+#         image: mongo:latest
+#         ports:
+#         - containerPort: 27017
+#         volumeMounts:
+#         - mountPath: /data/db
+#           name: mongo-storage
+#       volumes:
+#       - name: mongo-storage
+#         persistentVolumeClaim:
+#           claimName: mongo-pvc
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongodb-service
+#   namespace: mongodb
+# spec:
+#   selector:
+#     app: mongodb
+#   ports:
+#     - protocol: TCP
+#       port: 27017
+#       targetPort: 27017

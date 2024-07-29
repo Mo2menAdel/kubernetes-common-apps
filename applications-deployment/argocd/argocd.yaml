@@ -1,0 +1,89 @@
+# # # argocd-install.yaml
+# # apiVersion: v1
+# # kind: Namespace
+# # metadata:
+# #   name: argocd
+# ---
+# # apiVersion: v1
+# # kind: ServiceAccount
+# # metadata:
+# #   name: argocd
+# #   namespace: argocd
+# ---
+# # apiVersion: rbac.authorization.k8s.io/v1
+# # kind: ClusterRoleBinding
+# # metadata:
+# #   name: argocd
+# # roleRef:
+# #   apiGroup: rbac.authorization.k8s.io
+# #   kind: ClusterRole
+# #   name: cluster-admin
+# # subjects:
+# # - kind: ServiceAccount
+# #   name: argocd
+# #   namespace: argocd
+# ---
+# # apiVersion: apps/v1
+# # kind: Deployment
+# # metadata:
+# #   name: argocd-server
+# #   namespace: argocd
+# # spec:
+# #   replicas: 1
+# #   selector:
+# #     matchLabels:
+# #       app: argocd-server
+# #   template:
+# #     metadata:
+# #       labels:
+# #         app: argocd-server
+# #     spec:
+# #       serviceAccountName: argocd
+# #       containers:
+# #       - name: argocd-server
+# #         image: argoproj/argocd:v2.0.5
+# #         ports:
+# #         - containerPort: 8080
+# #           name: server
+# #         readinessProbe:
+# #           httpGet:
+# #             path: /healthz
+# #             port: 8080
+# #         livenessProbe:
+# #           httpGet:
+# #             path: /healthz
+# #             port: 8080
+# ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: argocd-server
+# #   namespace: argocd
+# # spec:
+# #   selector:
+# #     app: argocd-server
+# #   ports:
+# #     - protocol: TCP
+# #       port: 80
+# #       targetPort: 8080
+# #   type: LoadBalancer
+# ---
+# # apiVersion: networking.k8s.io/v1
+# # kind: Ingress
+# # metadata:
+# #   name: argocd-ingress
+# #   namespace: argocd
+# #   annotations:
+# #     nginx.ingress.kubernetes.io/rewrite-target: /
+# # spec:
+# #   rules:
+# #   - host: argocd.yourdomain.com
+# #     http:
+# #       paths:
+# #       - path: /
+# #         pathType: Prefix
+# #         backend:
+# #           service:
+# #             name: argocd-server
+# #             port:
+# #               number: 80
