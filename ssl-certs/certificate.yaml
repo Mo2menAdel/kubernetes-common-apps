@@ -1,16 +1,4 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: keycloak-cert
-  namespace: keycloak
-spec:
-  secretName: keycloak-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  commonName: keycloak.moamenadaebes.online
-  dnsNames:
-    - keycloak.moamenadaebes.online
+
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
